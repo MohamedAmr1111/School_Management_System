@@ -1,0 +1,484 @@
+
+
+CREATE TABLE student (
+    sid NUMBER primary key,
+    std_id number,
+    trans_id number,
+    name VARCHAR2(100) ,
+    email VARCHAR2(100),
+    mobile VARCHAR2(12),
+    gender VARCHAR2(10),
+    data_of_birth date,
+    current_level NUMBER,
+    class_name VARCHAR2(10),
+    address VARCHAR2(100)
+);
+
+CREATE TABLE student_registration (
+    std_id NUMBER,
+    stud_registration date,
+    type_code number,
+    ammount NUMBER NOT NULL,                     
+	PRIMARY KEY (std_id)
+);
+
+
+CREATE TABLE Rtype (
+    Type_code NUMBER primary key,
+    Type_name VARCHAR2(15)   
+);
+
+CREATE TABLE transport (
+    trans_id NUMBER primary key,
+	driver_id number                         
+);
+
+
+
+CREATE TABLE department (
+    dep_id NUMBER primary key,
+    name VARCHAR2(100)        
+);
+
+
+CREATE TABLE course (
+    code NUMBER,
+    name VARCHAR2(100),
+    course_level NUMBER,
+	dep_id NUMBER,                              
+	teacher_id NUMBER,
+    PRIMARY KEY (code)
+);
+
+CREATE TABLE teacher (
+    teacher_id NUMBER primary key,
+    name VARCHAR2(100) ,
+    national_id VARCHAR2(14),
+    age number,           
+    mobile VARCHAR2(12),
+    salary NUMBER,
+    gender VARCHAR2(10)
+);
+
+CREATE TABLE employee_registration (
+        emp_register_id NUMBER,
+        emp_registration date,
+	driver_id NUMBER,                
+	teacher_id NUMBER,
+	primary key (emp_register_id)
+);
+
+CREATE TABLE driver (
+	driver_id NUMBER primary key,
+	national_id varchar2(14),
+    name VARCHAR2(100),          
+    salary NUMBER
+);
+
+CREATE TABLE enrollment (
+	sid NUMBER,
+    code NUMBER,
+    grade VARCHAR2(10),
+    PRIMARY KEY (sid,code) 
+);
+
+create table dep_emp(
+emp_id number primary key,
+dep_id number,
+name varchar2(50),
+mobile varchar2(12),
+salary number
+);
+
+create table parent (
+pid number,
+sid number,
+name varchar2(100),
+national_id varchar2(14),
+mobile varchar2(12),
+job varchar2(100),
+address varchar2(100),
+primary key (pid,sid)
+);
+
+===================================================================
+
+---For all foreign key 
+
+alter table enrollment add FOREIGN KEY (sid) REFERENCES student (sid);
+
+alter table enrollment add FOREIGN KEY (code) REFERENCES course (code);
+
+alter table employee_registration add FOREIGN KEY (teacher_id) REFERENCES teacher (teacher_id);
+
+alter table employee_registration add FOREIGN KEY (driver_id) REFERENCES driver (driver_id);
+
+alter table parent add foreign key (sid) references student(sid);
+
+alter table student add foreign key (std_id) references student_registration(std_id);
+
+alter table student add foreign key (trans_id) references transport (trans_id);
+
+alter table student_registration add foreign key (type_code) references Rtype (type_code);
+
+alter table course add foreign key (teacher_id) references teacher (teacher_id);
+
+
+alter table transport add foreign key (driver_id) references driver (driver_id);
+
+alter table course add FOREIGN KEY (dep_id) REFERENCES department (dep_id);
+
+alter table dep_emp add FOREIGN KEY (dep_id) REFERENCES department (dep_id);
+
+--------------------------------------------------------------------------------
+-- driver data
+
+insert into driver values(1,'12345678945612','ahmed aly',3000);
+insert into driver values(2,'15345678945612','abdallah zakaria',3200);
+insert into driver values(3,'12345678945611','wael mohamed',3200);
+insert into driver values(4,'12345678945612','mohanad omar',3000);
+insert into driver values(5,'12345678985612','ahmed youssif',3200);
+insert into driver values(6,'72345678945612','sayed ahmed',3000);
+insert into driver values(7,'12385678945612','amen basem',3200);
+insert into driver values(8,'22345678945612','ahmed maher',3200);
+
+-------------------------------------------------------------------------------
+--transport data
+
+insert into transport values (1,1);
+insert into transport values (2,2);
+insert into transport values (3,3);
+insert into transport values (4,4);
+insert into transport values (5,5);
+insert into transport values (6,6);
+insert into transport values (7,7);
+insert into transport values (8,8);
+
+--------------------------------------------------------------------------------------------------------------------
+--teacher data
+
+insert into teacher values(1,'emad abdallah','30145698762145',25,'01270804568',5000,'male');
+insert into teacher values(2,'menna ahmed','30145697762145',26,'01270804778',5000,'female');
+insert into teacher values(3,'nouran mohamed','37145698762145',24,'01270804569',4500,'female');
+insert into teacher values(4,'maged abdallah','30166698762145',26,'01170804568',5000,'male');
+insert into teacher values(5,'hosny abdallah','30166208762145',28,'01078804568',5000,'male');
+insert into teacher values(6,'mohamed karam','30166698602145',27,'01021804568',4500,'male');
+insert into teacher values(7,'magda zizo','30166984825145',24,'01170800800',4000,'female');
+insert into teacher values(8,'khaled mosaad','30177798762145',26,'01270805068',5000,'male');
+insert into teacher values(9,'jumana mohamed','30166698753205',30,'01170804568',5000,'female');
+insert into teacher values(10,'farida ali','30345098762145',24,'01121274568',4000,'female');
+insert into teacher values(11,'mohamed hassan','30166695642145',26,'01550804568',4500,'male');
+insert into teacher values(12,'mohamed farid','30166698765545',26,'01170801238',5000,'male');
+insert into teacher values(13,'esraa tamir','30196388762145',27,'01170804568',5000,'female');
+insert into teacher values(14,'ayman abdo','30030398762145',26,'01170804568',4000,'male');
+insert into teacher values(15,'carmin mostafa','30166600762145',33,'01170870568',5000,'female');
+insert into teacher values(16,'yara mohamed','30304098762145',30,'01154834568',4000,'female');
+insert into teacher values(17,'louy karim','30166698764215',26,'01170509568',5000,'male');
+insert into teacher values(18,'olaa mohamed','30166698763145',34,'01166804568',5000,'female');
+insert into teacher values(19,'gehan ahmed','30166543762145',41,'01170804009',4500,'female');
+insert into teacher values(20,'mostafa abdelkader','30168527462145',50,'01170804568',5000,'male');
+
+----------------------------------------------------------------------------------------------------------------------------
+
+--emp_registration
+
+insert into employee_registration (emp_register_id,emp_registration,driver_id) values(1,to_date('01-FEB-1996','DD-MON-YYYY'),1);
+insert into employee_registration (emp_register_id,emp_registration,driver_id) values(2,to_date('02-oct-1995','DD-MON-YYYY'),2);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(3,to_date('01-may-1994','DD-MON-YYYY'),3);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(4,to_date('01-aug-1993','DD-MON-YYYY'),4);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(5,to_date('01-aug-1993','DD-MON-YYYY'),5);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(6,to_date('12-dec-1992','DD-MON-YYYY'),6);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(7,to_date('01-jan-1993','DD-MON-YYYY'),7);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(8,to_date('01-feb-1995','DD-MON-YYYY'),8);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(9,to_date('30-aug-1994','DD-MON-YYYY'),9);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(10,to_date('20-may-1995','DD-MON-YYYY'),10);
+insert into employee_registration (emp_register_id,emp_registration,driver_id) values(11,to_date('01-FEB-1990','DD-MON-YYYY'),3);
+insert into employee_registration (emp_register_id,emp_registration,driver_id) values(12,to_date('01-nov-1996','DD-MON-YYYY'),4);
+insert into employee_registration (emp_register_id,emp_registration,driver_id) values(13,to_date('01-FEB-1990','DD-MON-YYYY'),5);
+insert into employee_registration (emp_register_id,emp_registration,driver_id) values(14,to_date('10-aug-1991','DD-MON-YYYY'),6);
+insert into employee_registration (emp_register_id,emp_registration,driver_id) values(15,to_date('30-may-1992','DD-MON-YYYY'),7);
+insert into employee_registration (emp_register_id,emp_registration,driver_id) values(16,to_date('01-FEB-1989','DD-MON-YYYY'),8);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(17,to_date('20-dec-1990','DD-MON-YYYY'),17);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(18,to_date('20-may-1990','DD-MON-YYYY'),18);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(19,to_date('22-sep-1992','DD-MON-YYYY'),19);
+insert into employee_registration (emp_register_id,emp_registration,teacher_id) values(20,to_date('20-may-1991','DD-MON-YYYY'),20);
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+--registration type (physical,online)
+
+insert into Rtype values(1,'physical');
+insert into Rtype values(2,'online');
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+----- department id we have only one department addmision
+insert into department values (1,'Admission');
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+--student registration
+
+insert into student_registration values(1,to_date('01-aug-2010','DD-MON-YYYY'),1,4000);
+insert into student_registration values(2,to_date('01-aug-2010','DD-MON-YYYY'),2,3500);
+insert into student_registration values(3,to_date('01-aug-2010','DD-MON-YYYY'),1,4500);
+insert into student_registration values(4,to_date('12-jun-2011','DD-MON-YYYY'),2,4000);
+
+insert into student_registration values(5,to_date('05-nov-2011','DD-MON-YYYY'),2,4000);
+insert into student_registration values(6,to_date('06-jun-2010','DD-MON-YYYY'),1,3500);
+insert into student_registration values(7,to_date('02-dec-2012','DD-MON-YYYY'),1,4500);
+insert into student_registration values(8,to_date('03-may-2009','DD-MON-YYYY'),2,4000);
+insert into student_registration values(9,to_date('01-aug-2012','DD-MON-YYYY'),2,3500);
+insert into student_registration values(10,to_date('10-sep-2010','DD-MON-YYYY'),1,4500);
+insert into student_registration values(11,to_date('09-aug-2011','DD-MON-YYYY'),1,3500);
+insert into student_registration values(12,to_date('03-oct-2012','DD-MON-YYYY'),2,4000);
+insert into student_registration values(13,to_date('13-aug-2012','DD-MON-YYYY'),2,4500);
+insert into student_registration values(14,to_date('07-oct-2012','DD-MON-YYYY'),1,3500);
+insert into student_registration values(15,to_date('18-aug-2013','DD-MON-YYYY'),1,4500);
+insert into student_registration values(16,to_date('11-aug-2013','DD-MON-YYYY'),2,4000);
+insert into student_registration values(17,to_date('20-apr-2011','DD-MON-YYYY'),2,3500);
+insert into student_registration values(18,to_date('25-jan-2013','DD-MON-YYYY'),1,4500);
+insert into student_registration values(19,to_date('1-feb-2009','DD-MON-YYYY'),1,4000);
+insert into student_registration values(20,to_date('22-sep-2010','DD-MON-YYYY'),2,3500);
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--student data
+
+insert into student values (1,1,1,'ziad amr','ziad11@gmail.com','01270931560','male',to_date('12-jun-2005','DD-MON-YYYY'),10,'10A','mokatam 81 street');
+insert into student values (2,2,1,'ahmed abdallah','ahmed11@gmail.com','01170931560','male',to_date('12-oct-2005','DD-MON-YYYY'),10,'10A','mokatam 71 street');
+insert into student values (3,3,2,'menna ahmed','menna_ahmed@gmail.com','01277931560','female',to_date('11-nov-2005','DD-MON-YYYY'),10,'10B','sheraton');
+insert into student values (4,4,2,'nada omar','nada22@gmail.com','01070931560','female',to_date('20-feb-2005','DD-MON-YYYY'),10,'10B','masr elgdeda');
+insert into student values (5,5,1,'ahmed omar','ahmed_7722@gmail.com','01070731560','male',to_date('20-aug-2005','DD-MON-YYYY'),10,'10B','roxy');
+insert into student values (21,21,7,'ahmed alaa','ahmed2002@gmail.com','01060931560','male',to_date('12-jun-2007','DD-MON-YYYY'),9,'10A','mokatam 91 street');
+insert into student values (22,22,8,'karim rady','karimR@gmail.com','01280937560','male',to_date('12-jun-2005','DD-MON-YYYY'),10,'10A',null);
+insert into student values (23,23,4,'salma elgendy','salma88@gmail.com','01270931560','female',to_date('12-jun-2004','DD-MON-YYYY'),12,'12C',null);
+insert into student values (6,6,1,'tamir omar','tamir_4044@gmail.com','01006031560','male',to_date('15-aug-2006','DD-MON-YYYY'),8,'8A','masr el gdeda');
+insert into student values (7,7,4,'omar el fatarany','omar_9000@gmail.com','01070731127','male',to_date('10-nov-2008','DD-MON-YYYY'),7,'7C','abdin');
+insert into student values (8,8,2,'nour aly','nour_4432@gmail.com','01070476560','female',to_date('8-dec-2006','DD-MON-YYYY'),12,'12C','el haram');
+insert into student values (9,9,5,'esraa ahmed','soso_soso123@gmail.com','01078531560','female',to_date('4-feb-2005','DD-MON-YYYY'),12,'12B','roxy');
+insert into student values (10,10,7,'mohamed amr','odo_amr20@gmail.com','01523731560','male',to_date('22-aug-2005','DD-MON-YYYY'),14,'14A','tanta');
+insert into student values (11,11,7,'mariem amr','maty_amr21@gmail.com','01523731790','female',to_date('22-aug-2005','DD-MON-YYYY'),14,'14A','tanta');
+insert into student values (12,12,6,'amr rady','amor_aborady@gmail.com','01193731560','male',to_date('14-nov-2007','DD-MON-YYYY'),14,'14A','null');
+insert into student values (13,13,8,'karma zizo','karom_zoz20@gmail.com','01528581560','female',to_date('10-aug-2005','DD-MON-YYYY'),13,'13B','el rehab');
+insert into student values (14,14,8,'salma zizo','salom_zoz20@gmail.com','01008731560','female',to_date('10-aug-2005','DD-MON-YYYY'),13,'13B','el rehab');
+insert into student values (15,15,3,'kariem alaa','kemz_4020@gmail.com','01523731590','male',to_date('28-feb-2006','DD-MON-YYYY'),10,'10C','null');
+insert into student values (16,16,4,'zakaria el dardery','zeko_zeko4@gmail.com','01523756560','male',to_date('1-nov-2008','DD-MON-YYYY'),9,'9C','sohag');
+insert into student values (17,17,4,'fayrouz el gendy','fayrouz_2030@gmail.com','01197731560','female',to_date('16-dec-2006','DD-MON-YYYY'),10,'10B','null');
+insert into student values (18,18,1,'ziad amr','zoz_amr20@gmail.com','01546431560','male',to_date('22-aug-2005','DD-MON-YYYY'),14,'14A','tanta');
+insert into student values (19,19,7,'ahmed el saka','saka_7020@gmail.com','01033731560','male',to_date('14-nov-2005','DD-MON-YYYY'),13,'13C','el mokatam');
+insert into student values (20,20,5,'farida aly','fofo_4120@gmail.com','01520701560','female',to_date('20-dec-2007','DD-MON-YYYY'),11,'11A','el zamalek');
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+--course 
+
+insert into course values (1,'physics',10,1,1);
+insert into course values (2,'chemistry',10,1,2);
+insert into course values (3,'biology',12,1,3);
+insert into course values (4,'calculus',11,1,4);
+
+insert into course values (5,'arabic',11,1,5);
+insert into course values (6,'math',9,1,6);
+insert into course values (7,'math',10,1,7);
+insert into course values (8,'english',11,1,8);
+insert into course values (11,'Social Studies',9,1,11);
+insert into course values (9,'Social Studies',8,1,9);
+insert into course values (10,'Social Studies',7,1,10);
+-----------------------------------------------------------------------------
+select * from course
+select * from student
+-----------------------------------------------------------------------------
+
+--enrollment 
+
+insert into enrollment (sid,code,grade) values (1,2,'A');
+insert into enrollment values (2,2,'B');
+insert into enrollment values (3,4,'A');
+insert into enrollment values (3,7,'B+');
+insert into enrollment values (4,6,'A+');
+
+insert into enrollment(sid,code,grade) values (1,4,'B+');
+insert into enrollment values (2,4,'C');
+insert into enrollment values (2,2,'B');
+insert into enrollment values (3,3,'B');
+insert into enrollment values (4,2,'C');
+insert into enrollment values (4,3,'C');
+insert into enrollment values (5,9,'B+');
+insert into enrollment values (5,8,'B+');
+insert into enrollment values (6,1,'A');
+insert into enrollment values (7,8,'A');
+insert into enrollment values (7,2,'C+');
+insert into enrollment values (8,4,'F');
+insert into enrollment values (8,3,'F');
+insert into enrollment values (9,10,'F');
+insert into enrollment values (10,4,'A+');
+insert into enrollment values (10,2,'A+');
+insert into enrollment values (11,7,'B+');
+insert into enrollment values (11,5,'C');
+insert into enrollment values (12,2,'B+');
+insert into enrollment values (12,1,'B+');
+insert into enrollment values (13,10,'C');
+insert into enrollment values (13,7,'B+');
+insert into enrollment values (14,2,'C');
+insert into enrollment values (14,1,'C');
+insert into enrollment values (15,10,'B+');
+insert into enrollment values (15,5,'B+');
+insert into enrollment values (16,10,'C+');
+insert into enrollment values (16,5,'C+');
+insert into enrollment values (17,4,'F');
+insert into enrollment values (17,8,'B+');
+insert into enrollment values (18,2,'B+');
+insert into enrollment values (18,4,'B+');
+insert into enrollment values (19,5,'C');
+insert into enrollment values (19,6,'B+');
+insert into enrollment values (20,4,'B');
+insert into enrollment values (20,8,'B');
+==================================================================================================
+
+--parent information
+
+insert into parent values (1,1,'amr ahmed','12365478910548','01061075423','doctor','mokatam 81 street');
+insert into parent values (1,10,'amr ahmed','12365478910548','01061075428','doctor','mokatam 81 street');
+insert into parent values (1,11,'amr ahmed','12365478910548','01061075428','doctor','mokatam 81 street');
+insert into parent values (2,5,'omar mohamed','12755478910548','01061075474','doctor','mokatam 81 street');
+insert into parent values (2,4,'omar mohamed','12755478910548','01061075474','doctor','mokatam 81 street');
+insert into parent values (3,13,'zizo khaled','12765478910510','01061075427','lowayer',null);
+insert into parent values (3,14,'zizo khaled','12765478910510','01061075427','lowayer',null);
+insert into parent values (4,6,'amr ahmed','12765478910511','01061075444','developer',null);
+insert into parent values (5,2,'abdallah sayed','12765748910510','01161075427','dentist','sheraton');
+insert into parent values (6,7,'fatarany mohammed','17765478910510','01061075427','police man',null);
+insert into parent values (7,13,'amr ahmed','12765478910510','01061075427','accountant','roxy');
+insert into parent values (8,20,'aly abdallah','17765478910501','01561075427','civil engineer','el zamalek');
+insert into parent values (9,19,'el saka fady','12765778910510','01001075427','business man','el mokatam');
+insert into parent values (3,13,'amr ahmed','12765478910510','01061075427','doctor',null);
+
+insert into parent values (10,12,'rady gaber','17895478910510','01010675427','teacher',null);
+insert into parent values (11,15,'alaa','17895478910510','01001075427','software engineer',null);
+insert into parent values (12,16,'eldardery fouad','12745878910510','01058775427','data analysis','sohag');
+insert into parent values (13,17,'amr ahmed','22765478910510','01111175427','manager',null);
+insert into parent values (3,13,'amr ahmed','12765478910510','01061075427','doctor',null);
+
+insert into parent values (14,3,'ahmed mahmoud','32765478910510','010011075427','sales man','sheraton');
+insert into parent values (15,8,'aly maher','32765478910510','01551075427','pirate','elharam');
+insert into parent values (15,8,'ahmed esmail','52765478910510','01651075427','trader','el rehab');
+
+=============================================================================================================
+
+-- queries to help us in analysis
+
+select * from student where sid = 1 OR sid= 2;
+select * from student_registration where std_id = 1 or std_id=2;
+select * from teacher where teacher_id = 1 or teacher_id= 2;
+select * from enrollment where sid = 1 and sid=2;
+select * from course where code= 1 or code=2;
+
+-------------------------------------------------------------------------------------------------------------------
+
+--first query
+select * from course 
+inner join teacher 
+ON course.teacher_id = teacher.teacher_id;
+
+-------------------------------------------------------------------------------------------------------------------
+
+--second query
+select name,enrollment.sid,count(code) As "Number Of Courses"
+from student 
+inner join enrollment 
+on student.sid=enrollment.sid 
+group by enrollment.sid,name 
+order by count(code) asc;  
+
+
+====================================================================================================
+--triggers
+
+drop table auditGrade;
+
+create table auditGrade (sid number, oldgrade varchar2(10) , newgrade varchar2(10) , userr varchar2(40) , trxdate date)
+
+create or replace trigger lockGrade before update of grade on enrollment 
+for each row
+declare
+begin
+ insert into auditGrade(sid,oldgrade,newgrade,userr,trxdate)
+ values(:new.sid,:old.grade,:new.grade,user,sysdate);
+ end;
+
+   
+update enrollment set grade='A+' where sid=1;                      
+select * from auditGrade;
+
+========================================================================================================
+
+--Third Query
+ 
+select S.name as StudentName,S.CURRENT_LEVEL,D.name As DriverName,SR.ammount,RT.type_name AS Registration_Type
+from student S, student_registration SR,transport T,driver D,Rtype RT  
+where S.sid = SR.std_id
+and S.trans_id = T.trans_id
+and T.driver_id = D.driver_id 
+and SR.type_code=RT.type_code;
+
+================================================================================================
+
+--Forth Query
+
+select S.sid, S.name AS Student_Name ,C.name AS Course_Name, E.grade AS Student_grade ,T.name AS teacher_Name
+from enrollment E 
+inner join student S on E.sid = S.sid
+inner join course C on E.code = C.code
+inner join teacher T on C.teacher_id = T.teacher_id;
+
+====================================================================================================
+
+--Fifth query 
+select name "Parent Name", count(sid) AS "Number Of Childern " from parent group by name;
+
+===================================================================================================
+
+--sixth query
+
+select teacher.name ,course.name 
+from teacher
+inner join course on
+teacher.teacher_id = course.code;
+
+==================================================
+--Function for Stright A
+
+create or replace function ChkStraightA(p_sid number)
+return varchar2
+is
+v_count number;
+begin
+select count(*)
+into v_count
+from enrollment
+where sid=p_sid
+and grade <> 'A+';
+if v_count =0 
+then return 'Straight A+';
+else return NULL;
+end if;
+end;
+
+select sid,name,ChkStraightA(sid) AS "Stright A+" from student;
+=======================================
+--First type to call a function
+select sid,name,ChkStraightA(sid) from student;
+================================================================
+-- second type to call a function
+declare 
+select  ChkStraightA(sid) from enrollment
+c varchar2;
+begin
+c:=ChkStraightA(sid);
+dbm_output.put_line(c);
+end;
+==================================================================
+
+
+
+
